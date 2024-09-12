@@ -48,11 +48,12 @@ public class Application {
 
     @PutMapping("/posts/{id}")
     public Post update(@PathVariable String id, @RequestBody Post data) {
-        var maybePage = posts.stream()
+        var maybePost = posts.stream()
             .filter(p -> p.getId().equals(id))
             .findFirst();
-        if (maybePage.isPresent()) {
-            var post = maybePage.get();
+        if (maybePost.isPresent()) {
+            var post = maybePost.get();
+            post.setId(data.getId());
             post.setTitle(data.getTitle());
             post.setBody(data.getBody());
         }
@@ -60,7 +61,7 @@ public class Application {
     }
 
     @DeleteMapping("/posts/{id}")
-    public void delete(@PathVariable String id){
+    public void delete(@PathVariable String id) {
         posts.removeIf(post -> post.equals(id));
     }
 }
